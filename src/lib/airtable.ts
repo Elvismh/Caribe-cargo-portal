@@ -95,6 +95,10 @@ export async function fetchReportByCode(
   const params = new URLSearchParams();
   ALLOWED_FIELD_IDS.forEach((id) => params.append("fields[]", id));
   params.set("maxRecords", "1");
+  // Without this, Airtable keys the response `fields` object by field
+  // *name* even when the request used field IDs — toReport() below reads
+  // by field ID, so this must stay in sync with that.
+  params.set("returnFieldsByFieldId", "true");
   params.set(
     "filterByFormula",
     `{${REPORT_ID_FIELD_NAME}} = "${escapeFormulaValue(codigo)}"`,
