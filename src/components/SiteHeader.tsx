@@ -1,7 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import { getSessionFromCookies } from "@/lib/auth/session";
+import { LogoutButton } from "./LogoutButton";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const session = await getSessionFromCookies();
+
   return (
     <header className="border-b border-gray-100 dark:border-slate-800 py-5 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm sticky top-0 z-50 transition-colors">
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
@@ -32,6 +36,7 @@ export function SiteHeader() {
           >
             Indicadores
           </Link>
+          {session && <LogoutButton />}
         </nav>
       </div>
     </header>
