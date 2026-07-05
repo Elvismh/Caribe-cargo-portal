@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReportLookupResult } from "@/lib/airtable";
 
 function formatFecha(iso: string | null): string | null {
@@ -21,7 +22,7 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
     <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xl p-8">
       <div className="flex items-start justify-between gap-4 mb-6">
         <div>
-          <p className="text-sm text-slate-400 dark:text-slate-500 mb-1">
+          <p className="text-sm text-slate-400 dark:text-slate-400 mb-1">
             Reporte
           </p>
           <h2 className="text-2xl font-black text-[#1B365D] dark:text-blue-400 tracking-tight">
@@ -38,40 +39,40 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
         {data.estacion && (
           <div>
-            <dt className="text-slate-400 dark:text-slate-500 mb-1">
+            <dt className="text-slate-400 dark:text-slate-400 mb-1">
               Estación
             </dt>
-            <dd className="font-semibold text-slate-700 dark:text-slate-200">
+            <dd className="font-semibold text-slate-700 dark:text-white">
               {data.estacion}
             </dd>
           </div>
         )}
         {data.tipoReporte && (
           <div>
-            <dt className="text-slate-400 dark:text-slate-500 mb-1">
+            <dt className="text-slate-400 dark:text-slate-400 mb-1">
               Tipo de reporte
             </dt>
-            <dd className="font-semibold text-slate-700 dark:text-slate-200">
+            <dd className="font-semibold text-slate-700 dark:text-white">
               {data.tipoReporte}
             </dd>
           </div>
         )}
         {fechaSuceso && (
           <div>
-            <dt className="text-slate-400 dark:text-slate-500 mb-1">
+            <dt className="text-slate-400 dark:text-slate-400 mb-1">
               Fecha del suceso
             </dt>
-            <dd className="font-semibold text-slate-700 dark:text-slate-200">
+            <dd className="font-semibold text-slate-700 dark:text-white">
               {fechaSuceso}
             </dd>
           </div>
         )}
         {fechaCierre && (
           <div>
-            <dt className="text-slate-400 dark:text-slate-500 mb-1">
+            <dt className="text-slate-400 dark:text-slate-400 mb-1">
               Fecha de cierre
             </dt>
-            <dd className="font-semibold text-slate-700 dark:text-slate-200">
+            <dd className="font-semibold text-slate-700 dark:text-white">
               {fechaCierre}
             </dd>
           </div>
@@ -80,14 +81,23 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
 
       {data.notas && (
         <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-          <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-3">
+          <h3 className="text-sm font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wide mb-3">
             Notas de actualización
           </h3>
-          <p className="text-slate-600 dark:text-slate-300 whitespace-pre-line leading-relaxed">
+          <p className="text-slate-600 dark:text-slate-100 whitespace-pre-line leading-relaxed">
             {data.notas}
           </p>
         </div>
       )}
+
+      <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800 text-right">
+        <Link
+          href={`/reportes/${encodeURIComponent(data.codigo)}/detalle`}
+          className="text-sm font-bold text-[#1B365D] dark:text-blue-400 hover:underline"
+        >
+          Más información →
+        </Link>
+      </div>
     </div>
   );
 }

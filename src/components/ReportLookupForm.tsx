@@ -55,7 +55,7 @@ export function ReportLookupForm() {
           // Client-side hint only — the server independently re-validates
           // this pattern, so it is not the real security boundary.
           pattern="[A-Za-z]{2,4}-\d{12}"
-          className="flex-grow px-6 py-4 outline-none bg-transparent text-slate-700 dark:text-slate-200 text-lg"
+          className="flex-grow px-6 py-4 outline-none bg-transparent text-slate-700 dark:text-white text-lg"
         />
         <button
           type="submit"
