@@ -1,14 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 export function LogoutButton() {
-  const router = useRouter();
-
   async function handleLogout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/");
-    router.refresh();
+    // Full navigation, not router.push/refresh — guarantees the homepage
+    // is fetched fresh from the server with the cleared cookie.
+    window.location.href = "/";
   }
 
   return (

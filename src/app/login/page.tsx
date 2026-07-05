@@ -1,10 +1,9 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/";
 
@@ -29,16 +28,14 @@ function LoginForm() {
         setLoading(false);
         return;
       }
-      // router.refresh() is required here: the auth cookie just changed,
-      // and without it Next.js's client-side router cache would keep
-      // showing stale server-rendered data (e.g. SiteHeader still showing
-      // as logged out) until a manual page reload.
+      // A full navigation (not router.push) so the destination is always
+      // fetched fresh from the server with the new auth cookie — avoids
+      // Next.js's client router cache serving stale pre-login state.
       if (body.mustChangePassword) {
-        router.push(`/cambiar-password?next=${encodeURIComponent(next)}`);
+        window.location.href = `/cambiar-password?next=${encodeURIComponent(next)}`;
       } else {
-        router.push(next);
+        window.location.href = next;
       }
-      router.refresh();
     } catch {
       setError("No se pudo conectar. Intente de nuevo.");
       setLoading(false);

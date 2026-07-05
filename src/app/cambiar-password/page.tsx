@@ -1,10 +1,9 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 function ChangePasswordForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/";
 
@@ -36,8 +35,7 @@ function ChangePasswordForm() {
         setLoading(false);
         return;
       }
-      router.push(next);
-      router.refresh();
+      window.location.href = next;
     } catch {
       setError("No se pudo conectar. Intente de nuevo.");
       setLoading(false);
