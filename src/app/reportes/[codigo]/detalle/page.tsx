@@ -42,7 +42,7 @@ export default function ReportDetailPage({
   return (
     <div className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300 min-h-[60vh]">
       <div className="max-w-3xl mx-auto px-6 pt-16 pb-20">
-        <h1 className="text-2xl font-black text-[#1B365D] dark:text-blue-400 mb-1 tracking-tight">
+        <h1 className="text-2xl font-black text-[#1B365D] dark:text-white mb-1 tracking-tight">
           Detalle sensible del reporte
         </h1>
         <p className="text-slate-500 dark:text-slate-300 mb-8">{codigo}</p>

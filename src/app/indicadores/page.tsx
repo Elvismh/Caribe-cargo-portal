@@ -39,7 +39,7 @@ export default function IndicadoresPage() {
   return (
     <div className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300 min-h-[60vh]">
       <div className="max-w-6xl mx-auto px-6 pt-16 pb-20">
-        <h1 className="text-3xl font-black text-[#1B365D] dark:text-blue-400 mb-2 tracking-tight">
+        <h1 className="text-3xl font-black text-[#1B365D] dark:text-white mb-2 tracking-tight">
           Indicadores de Seguridad (KSPI)
         </h1>
         <p className="text-slate-500 dark:text-slate-300 mb-10">

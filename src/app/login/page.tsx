@@ -29,11 +29,16 @@ function LoginForm() {
         setLoading(false);
         return;
       }
+      // router.refresh() is required here: the auth cookie just changed,
+      // and without it Next.js's client-side router cache would keep
+      // showing stale server-rendered data (e.g. SiteHeader still showing
+      // as logged out) until a manual page reload.
       if (body.mustChangePassword) {
         router.push(`/cambiar-password?next=${encodeURIComponent(next)}`);
       } else {
         router.push(next);
       }
+      router.refresh();
     } catch {
       setError("No se pudo conectar. Intente de nuevo.");
       setLoading(false);
@@ -43,7 +48,7 @@ function LoginForm() {
   return (
     <div className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <div className="max-w-md mx-auto px-6 pt-24 pb-20">
-        <h1 className="text-2xl font-black text-[#1B365D] dark:text-blue-400 mb-8 text-center">
+        <h1 className="text-2xl font-black text-[#1B365D] dark:text-white mb-8 text-center">
           Iniciar sesión
         </h1>
         <form

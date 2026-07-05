@@ -19,7 +19,7 @@ export async function SiteHeader() {
               priority
             />
           </div>
-          <span className="font-bold text-xl text-brandBlue dark:text-blue-400 tracking-tight">
+          <span className="font-bold text-xl text-brandBlue dark:text-white tracking-tight">
             CARIBE CARGO, S.R.L.
           </span>
         </Link>

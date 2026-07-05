@@ -25,7 +25,7 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
           <p className="text-sm text-slate-400 dark:text-slate-400 mb-1">
             Reporte
           </p>
-          <h2 className="text-2xl font-black text-[#1B365D] dark:text-blue-400 tracking-tight">
+          <h2 className="text-2xl font-black text-[#1B365D] dark:text-white tracking-tight">
             {data.codigo}
           </h2>
         </div>

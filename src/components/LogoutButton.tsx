@@ -16,7 +16,7 @@ export function LogoutButton() {
       onClick={handleLogout}
       className="hover:text-brandBlue dark:hover:text-blue-400 transition-colors"
     >
-      Salir
+      Cerrar sesión
     </button>
   );
 }

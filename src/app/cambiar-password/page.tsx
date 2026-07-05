@@ -37,6 +37,7 @@ function ChangePasswordForm() {
         return;
       }
       router.push(next);
+      router.refresh();
     } catch {
       setError("No se pudo conectar. Intente de nuevo.");
       setLoading(false);
@@ -46,7 +47,7 @@ function ChangePasswordForm() {
   return (
     <div className="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <div className="max-w-md mx-auto px-6 pt-24 pb-20">
-        <h1 className="text-2xl font-black text-[#1B365D] dark:text-blue-400 mb-2 text-center">
+        <h1 className="text-2xl font-black text-[#1B365D] dark:text-white mb-2 text-center">
           Cambia tu contraseña
         </h1>
         <p className="text-slate-500 dark:text-slate-300 text-sm text-center mb-8">
