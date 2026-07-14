@@ -128,8 +128,13 @@ async function fetchCasoStatus(
   params.append("fields[]", estadoFieldId);
   params.append("fields[]", actualizacionesFieldId);
   params.set("returnFieldsByFieldId", "true");
+  params.set("maxRecords", "1");
+  // Airtable's single-record "retrieve" endpoint (GET .../{tableId}/{recordId})
+  // doesn't support fields[]/returnFieldsByFieldId (returns 422) — use the
+  // list endpoint filtered to this exact record ID instead, which does.
+  params.set("filterByFormula", `RECORD_ID() = "${recordId}"`);
 
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableId}/${recordId}?${params.toString()}`;
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableId}?${params.toString()}`;
 
   try {
     const res = await fetch(url, {
@@ -140,9 +145,11 @@ async function fetchCasoStatus(
       console.error(`Airtable case fetch (${tipo}) responded with error`, res.status);
       return null;
     }
-    const data = (await res.json()) as AirtableRecord;
-    const estadoRaw = firstValue(data.fields[estadoFieldId]);
-    const actualizacionesRaw = data.fields[actualizacionesFieldId];
+    const data = (await res.json()) as AirtableListResponse;
+    const record = data.records?.[0];
+    if (!record) return null;
+    const estadoRaw = firstValue(record.fields[estadoFieldId]);
+    const actualizacionesRaw = record.fields[actualizacionesFieldId];
     return {
       tipo,
       estado: mapCaseEstado(estadoRaw),

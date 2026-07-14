@@ -236,8 +236,13 @@ async function fetchCaseRecord(
   const params = new URLSearchParams();
   fieldIds.forEach((id) => params.append("fields[]", id));
   params.set("returnFieldsByFieldId", "true");
+  params.set("maxRecords", "1");
+  // Airtable's single-record "retrieve" endpoint (GET .../{tableId}/{recordId})
+  // doesn't support fields[]/returnFieldsByFieldId (returns 422) — use the
+  // list endpoint filtered to this exact record ID instead, which does.
+  params.set("filterByFormula", `RECORD_ID() = "${recordId}"`);
 
-  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableId}/${recordId}?${params.toString()}`;
+  const url = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${tableId}?${params.toString()}`;
   try {
     const res = await fetch(url, {
       headers: { Authorization: `Bearer ${token}` },
@@ -247,7 +252,8 @@ async function fetchCaseRecord(
       console.error("Airtable case-detail fetch responded with error", tableId, res.status);
       return null;
     }
-    return (await res.json()) as AirtableRecord;
+    const data = (await res.json()) as AirtableListResponse;
+    return data.records?.[0] ?? null;
   } catch (err) {
     console.error("Airtable case-detail fetch threw", tableId, err);
     return null;
