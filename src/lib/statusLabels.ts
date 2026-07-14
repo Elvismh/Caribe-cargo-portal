@@ -52,3 +52,45 @@ export function mapEstado(raw: string | null): EstadoInfo {
   const info = raw ? (ESTADO_MAP[raw] ?? DEFAULT_ESTADO) : DEFAULT_ESTADO;
   return { raw, ...info };
 }
+
+const CLOSED_COLOR =
+  "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300";
+const IN_PROGRESS_COLOR =
+  "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300";
+const PENDING_COLOR =
+  "bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300";
+const OPEN_COLOR =
+  "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300";
+
+/**
+ * The individual case tables (CASOS SMS, CASOS SOP, CRITERIOS DE SEGURIDAD
+ * DE INSTALACIONES) each have their own status vocabulary (e.g. SOP uses
+ * "Abierto"/"En corrección"/"Corregido", not the Inbox-level "Nuevo"/"En
+ * proceso"). Rather than hardcoding three separate exact-match tables,
+ * this classifies by keyword so it stays correct if a table's exact
+ * wording changes, and always shows the real label from Airtable.
+ */
+export function mapCaseEstado(raw: string | null): EstadoInfo {
+  if (!raw) {
+    return {
+      raw,
+      label: "Sin estatus",
+      colorClass:
+        "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
+    };
+  }
+  const normalized = raw.toLowerCase();
+  let colorClass = OPEN_COLOR;
+  if (normalized.includes("cerrado") || normalized.includes("corregido")) {
+    colorClass = CLOSED_COLOR;
+  } else if (normalized.includes("pendiente")) {
+    colorClass = PENDING_COLOR;
+  } else if (
+    normalized.includes("proceso") ||
+    normalized.includes("correcci") ||
+    normalized.includes("investig")
+  ) {
+    colorClass = IN_PROGRESS_COLOR;
+  }
+  return { raw, label: raw, colorClass };
+}

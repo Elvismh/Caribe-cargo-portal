@@ -79,6 +79,48 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
         )}
       </dl>
 
+      {data.casos.length > 0 && (
+        <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+          <h3 className="text-sm font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wide mb-3">
+            Estado por caso
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {data.casos.map((caso) => (
+              <span
+                key={caso.tipo}
+                className={`px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap ${caso.estado.colorClass}`}
+              >
+                {caso.tipo}: {caso.estado.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {data.casos.some((c) => c.actualizaciones) && (
+        <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
+          <h3 className="text-sm font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wide mb-3">
+            Actualizaciones del caso
+          </h3>
+          <div className="flex flex-col gap-5">
+            {data.casos
+              .filter((c) => c.actualizaciones)
+              .map((caso) => (
+                <div key={caso.tipo}>
+                  {data.casos.length > 1 && (
+                    <p className="text-xs font-bold text-slate-400 dark:text-slate-400 uppercase mb-1">
+                      {caso.tipo}
+                    </p>
+                  )}
+                  <p className="text-slate-600 dark:text-slate-100 whitespace-pre-line leading-relaxed">
+                    {caso.actualizaciones}
+                  </p>
+                </div>
+              ))}
+          </div>
+        </div>
+      )}
+
       {data.notas && (
         <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
           <h3 className="text-sm font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wide mb-3">
