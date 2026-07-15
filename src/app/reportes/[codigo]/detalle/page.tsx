@@ -8,6 +8,62 @@ import type {
   CasoCsiDetail,
 } from "@/lib/airtable-detail";
 
+function EvidenceGallery({
+  items,
+}: {
+  items: { url: string; filename: string; thumbnailUrl: string | null }[];
+}) {
+  const [lightbox, setLightbox] = useState<string | null>(null);
+
+  if (items.length === 0) return null;
+
+  return (
+    <div className="mb-2">
+      <p className="text-sm text-slate-400 dark:text-slate-300 mb-2">Evidencias</p>
+      <div className="flex flex-wrap gap-3">
+        {items.map((item, i) =>
+          item.thumbnailUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={i}
+              src={item.thumbnailUrl}
+              alt={item.filename}
+              onClick={() => setLightbox(item.url)}
+              className="w-32 h-32 object-cover rounded-lg border border-slate-200 dark:border-slate-700 cursor-pointer hover:opacity-80 transition-opacity"
+            />
+          ) : (
+            <a
+              key={i}
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-32 h-32 flex items-center justify-center text-center text-xs px-2 rounded-lg border border-slate-200 dark:border-slate-700 text-[#1B365D] dark:text-blue-400 underline"
+            >
+              {item.filename}
+            </a>
+          ),
+        )}
+      </div>
+
+      {lightbox && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-6 cursor-zoom-out"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={lightbox}
+            alt=""
+            className="max-w-full max-h-full object-contain rounded-lg"
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
 type State =
   | { status: "loading" }
   | { status: "error"; message: string }
@@ -193,10 +249,6 @@ export default function ReportDetailPage({
                 </div>
               )}
               <dl>
-                <Field label="Reportado por" value={state.data.reportadoPor} />
-                <Field label="Teléfono del reportante" value={state.data.telefonoReportante} />
-                <Field label="Correo del reportante" value={state.data.correoReportante} />
-                <Field label="Descripción del suceso" value={state.data.descripcion} />
                 <Field label="Responsable" value={state.data.responsable} />
                 <Field
                   label="Responsable del seguimiento"
@@ -206,7 +258,7 @@ export default function ReportDetailPage({
                 <Field label="Plan de acción propuesto" value={state.data.planAccion} />
               </dl>
 
-              <AttachmentList label="Evidencias" items={state.data.evidencias} />
+              <EvidenceGallery items={state.data.evidencias} />
               <AttachmentList label="Pruebas de cierre" items={state.data.pruebasCierre} />
             </div>
 

@@ -29,11 +29,25 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
             {data.codigo}
           </h2>
         </div>
-        <span
-          className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap ${data.estado.colorClass}`}
-        >
-          {data.estado.label}
-        </span>
+        {data.casos.length === 1 && (
+          <span
+            className={`px-4 py-2 rounded-xl text-sm font-bold whitespace-nowrap ${data.casos[0].estado.colorClass}`}
+          >
+            Estado - {data.casos[0].estado.label}
+          </span>
+        )}
+        {data.casos.length > 1 && (
+          <div className="flex flex-wrap justify-end gap-2">
+            {data.casos.map((caso) => (
+              <span
+                key={caso.tipo}
+                className={`px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap ${caso.estado.colorClass}`}
+              >
+                {caso.tipo}: {caso.estado.label}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       <dl className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
@@ -78,24 +92,6 @@ export function ReportStatusCard({ data }: { data: ReportLookupResult }) {
           </div>
         )}
       </dl>
-
-      {data.casos.length > 0 && (
-        <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
-          <h3 className="text-sm font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wide mb-3">
-            Estado por caso
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {data.casos.map((caso) => (
-              <span
-                key={caso.tipo}
-                className={`px-3 py-1.5 rounded-lg text-sm font-bold whitespace-nowrap ${caso.estado.colorClass}`}
-              >
-                {caso.tipo}: {caso.estado.label}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
 
       {data.casos.some((c) => c.actualizaciones) && (
         <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-800">
