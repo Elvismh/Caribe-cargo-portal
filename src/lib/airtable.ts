@@ -56,7 +56,7 @@ const CASE_TABLES: Record<
   SOP: {
     tableId: "tbl4obI5Tcv45J712",
     estadoFieldId: "fldkL2bJBAW96L2Y8",
-    actualizacionesFieldId: "fld9vZQOaFjvKgdgY",
+    actualizacionesFieldId: "fldb2DxGn7IVPfx22",
   },
   CSI: {
     tableId: "tblQUSiAGWK6rvwHN",

@@ -85,7 +85,7 @@ const SOP_FIELDS = {
   accionesCorrectivas: "fld3OHJlB5PO5PXoC",
   evidenciaCierre: "fldlVNB1rJQkaK2X5",
   fechaCierre: "fldGHmdg98hHnp73U",
-  actualizaciones: "fld9vZQOaFjvKgdgY",
+  actualizaciones: "fldb2DxGn7IVPfx22",
 } as const;
 
 const CSI_FIELDS = {
