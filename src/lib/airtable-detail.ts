@@ -13,6 +13,7 @@ const AIRTABLE_TABLE_ID = process.env.AIRTABLE_TABLE_ID ?? "tbldKTwfyG5MIZZ1N";
 const REPORT_ID_FIELD_NAME = "ID del reporte";
 
 const FIELD_ID_REPORTE = "fldYrMQ3UN9yR8w6b";
+const FIELD_ID_DESCRIPCION = "fldyvKSH4MwtFNPLQ";
 const FIELD_ID_EVIDENCIAS = "fld8p30qc4QFQElg5";
 const FIELD_ID_CONFIDENCIAL = "fldoQeLDZMBV8483N";
 const FIELD_ID_RESPONSABLE_NOMBRE = "fldAYWPpsxPhh5FYR";
@@ -26,6 +27,7 @@ const FIELD_ID_LINK_CSI = "fldu7E8cCEn2o8JVD";
 
 const ELEVATED_ALLOWED_FIELD_IDS = [
   FIELD_ID_REPORTE,
+  FIELD_ID_DESCRIPCION,
   FIELD_ID_EVIDENCIAS,
   FIELD_ID_CONFIDENCIAL,
   FIELD_ID_RESPONSABLE_NOMBRE,
@@ -118,6 +120,7 @@ interface AirtableListResponse {
 
 export interface ReportDetailResult {
   codigo: string;
+  descripcion: string | null;
   evidencias: { url: string; filename: string; thumbnailUrl: string | null }[];
   confidencial: boolean;
   responsable: string | null;
@@ -350,6 +353,10 @@ async function toDetail(record: AirtableRecord, token: string): Promise<ReportDe
 
   return {
     codigo: typeof f[FIELD_ID_REPORTE] === "string" ? f[FIELD_ID_REPORTE] : "",
+    descripcion:
+      typeof f[FIELD_ID_DESCRIPCION] === "string"
+        ? sanitizeNotes(f[FIELD_ID_DESCRIPCION])
+        : null,
     evidencias: attachmentsWithThumbnails(f[FIELD_ID_EVIDENCIAS]),
     confidencial: f[FIELD_ID_CONFIDENCIAL] === true,
     responsable: firstValue(f[FIELD_ID_RESPONSABLE_NOMBRE]),

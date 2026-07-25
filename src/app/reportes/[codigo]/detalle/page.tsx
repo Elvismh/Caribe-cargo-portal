@@ -248,7 +248,11 @@ export default function ReportDetailPage({
                   Reporte marcado como confidencial
                 </div>
               )}
-              <dl>
+
+              <Field label="Descripción del suceso" value={state.data.descripcion} />
+              <EvidenceGallery items={state.data.evidencias} />
+
+              <dl className="mt-6">
                 <Field label="Responsable" value={state.data.responsable} />
                 <Field
                   label="Responsable del seguimiento"
@@ -258,7 +262,6 @@ export default function ReportDetailPage({
                 <Field label="Plan de acción propuesto" value={state.data.planAccion} />
               </dl>
 
-              <EvidenceGallery items={state.data.evidencias} />
               <AttachmentList label="Pruebas de cierre" items={state.data.pruebasCierre} />
             </div>
 
